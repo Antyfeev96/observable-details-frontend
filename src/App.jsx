@@ -3,7 +3,7 @@ import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import styled from 'styled-components';
 import React from "react";
 import MainPage from "./Components/MainPage/MainPage";
-import { Redirect } from "react-router-dom";
+import {Redirect} from "react-router-dom";
 import EditForm from "./Components/Form/EditForm";
 
 const Container = styled.div`
@@ -12,21 +12,21 @@ const Container = styled.div`
 `
 
 function App() {
-  return (
-    <Router>
-      <Container className="app">
-        <Redirect to="/services" />
-        <Switch>
-            <Route path='/services/:id'>
-                <EditForm/>
-            </Route>
-            <Route path='/services'>
-              <MainPage />
-            </Route>
-        </Switch>
-      </Container>
-    </Router>
-  );
+    return (
+        <Router>
+            <Container className="app">
+                <Redirect to="/services"/>
+                <Switch>
+                    <Route path='/services/:id'>
+                        <EditForm/>
+                    </Route>
+                    <Route path='/services'>
+                        <MainPage/>
+                    </Route>
+                </Switch>
+            </Container>
+        </Router>
+    );
 }
 
 export default App;

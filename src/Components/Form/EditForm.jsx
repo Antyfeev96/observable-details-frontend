@@ -40,7 +40,7 @@ const Button = styled.button`
 `;
 
 export default function EditForm() {
-  const state = useSelector((state) => state.services);
+  const state = useSelector(({ services }) => services);
   console.log(state);
   const dispatch = useDispatch();
   const history = useHistory();
