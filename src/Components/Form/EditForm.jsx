@@ -1,10 +1,17 @@
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchServiceRequest, setSelectedId } from "../../Reducers/Reducers";
+import {
+  fetchServiceRequest, fetchServiceSuccess,
+  setSelectedId,
+  clearSelectedId,
+  fetchServicesSuccess, fetchServicesError
+} from "../../Reducers/Reducers";
 import React, { Fragment, useEffect } from "react";
 import Error from "../Error/Error";
 import Spinner from "../Spinner/Spinner";
 import { useHistory } from "react-router-dom";
+import API from "../../API";
+const api = new API()
 
 const Div = styled.div`
   input {
@@ -39,26 +46,45 @@ const Button = styled.button`
   font-size: 20px;
 `;
 
+const fetchService = async (dispatch, id) => {
+  dispatch(fetchServiceRequest());
+  try {
+    const response = await api.getItem(id);
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+    const data = await response.json();
+    dispatch(fetchServiceSuccess(data));
+  } catch(e) {
+    console.log(e)
+    dispatch(fetchServicesError(e));
+  }
+}
+
 export default function EditForm() {
   const state = useSelector(({ services }) => services);
-  console.log(state);
+  console.log({state});
   const dispatch = useDispatch();
   const history = useHistory();
 
   useEffect(() => {
-    if (state.selectedId === null) return;
+    if (state.selectedId === null && state.name === '') return;
     dispatch(fetchServiceRequest(state.selectedId))
   }, [dispatch]);
 
   const handleCancel = () => {
     history.goBack();
-    dispatch(setSelectedId(null));
+    dispatch(clearSelectedId());
   };
+
+  const handleRepeat = async () => {
+    fetchService(dispatch, state.selectedId)
+  }
 
   return (
     <Fragment>
-      {(state.error && <Error />) ||
-        (state.loading ? (
+      {(state.error && <Error handleRepeat={handleRepeat} />) ||
+        ((state.loading || state.name === '') ? (
           <Spinner />
         ) : (
           <Div className='form'>

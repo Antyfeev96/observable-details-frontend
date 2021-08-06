@@ -13,7 +13,7 @@ const StyledError = styled.div`
 const RepeatButton = styled.button`
     margin-top: 15px;
     padding: 10px;
-    text-aligh: center;
+    text-align: center;
     background-color: green;
     color: white;
 

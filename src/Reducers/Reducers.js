@@ -33,6 +33,7 @@ export const toolkitSlice = createSlice({
       state.error = null;
     },
     fetchServiceSuccess(state, action) {
+      if (action.payload === null) return state;
       const { name, price, content } = action.payload;
       return state = {...state, name, price, content, loading: false, error: null}
     },
@@ -40,9 +41,13 @@ export const toolkitSlice = createSlice({
       const selectedId = action.payload;
       state.selectedId = selectedId;
     },
+    clearSelectedId(state) {
+      state.name = state.price = state.content = ''
+      state.selectedId = null
+    }
   }
 })
 
 
 export default toolkitSlice.reducer;
-export const { setSelectedId, fetchServicesRequest, fetchServiceSuccess, fetchServicesSuccess, fetchServicesError, fetchServiceRequest } = toolkitSlice.actions;
+export const { setSelectedId, fetchServicesRequest, fetchServiceSuccess, fetchServicesSuccess, fetchServicesError, fetchServiceRequest, clearSelectedId } = toolkitSlice.actions;

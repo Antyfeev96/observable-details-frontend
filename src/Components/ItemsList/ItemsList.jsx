@@ -57,7 +57,7 @@ const fetchServices = async dispatch => {
 }
 
 export default function ItemsList() {
-  const state = useSelector(state => state.services);
+  const state = useSelector(({ services }) => services);
   const dispatch = useDispatch();
   const match = useRouteMatch();
 
@@ -77,7 +77,7 @@ export default function ItemsList() {
   return (
     <List>
       {(state.error && <Error handleRepeat={handleRepeat} />) ||
-        (state.loading ? (
+        (state.loading || state.list.length === 0 ? (
           <Spinner />
         ) : (
           state.list.map((item) => (
